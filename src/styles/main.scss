@@ -11,13 +11,15 @@
 
 html {
   font-size: 10px;
-  font-family: sans-serif;
 }
 
+body {
+  font: var(--font-14-r);
+}
 
 #app {
-  min-height: 100dvh;
   width: 100%;
+  min-height: 100dvh;
 }
 
 html:has(.face-id-page) {
@@ -42,5 +44,5 @@ html:has(.face-id-page) {
 
 ::-webkit-scrollbar-thumb {
   border-radius: var(--radius-m);
-  background-color: var(--secondary-500);
+  background-color: var(--primary-500);
 }

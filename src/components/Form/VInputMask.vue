@@ -1,42 +1,54 @@
-<script setup lang="ts">
-import type { MaskaDetail } from 'maska';
+<script lang="ts">
 import type { InputTextProps } from 'primevue';
-import type { IEmits, InputMaskProps } from '@/composables/Form/types';
+import type { PropType } from 'vue';
 import { vMaska } from 'maska/vue';
-
 import { InputText } from 'primevue';
-import FormLabel from '@/components/Form/FormLabel.vue';
-import { useFormField } from '@/composables/Form';
+import { computed, defineComponent, h, withDirectives } from 'vue';
+import { useMask } from '@/composables/UI';
 
-const props = defineProps<InputMaskProps<string, InputTextProps>>();
-const emit = defineEmits<IEmits<string>>();
-
-const { val, isMaskFieldCorrect, fieldValid, errorMessage } = useFormField<string, InputTextProps>(props, emit);
-
-const maska = {
-  mask: props.mask,
-  eager: true,
-  tokens: {
-    A: { pattern: /[A-Z]/, transform: (chr: string) => chr.toUpperCase() },
+export default defineComponent<InputTextProps & { mask: string, unmasked?: string }> ({
+  name: 'VInputMask',
+  inheritAttrs: false,
+  props: {
+    modelValue: {
+      type: String as PropType<string>,
+      required: false,
+    },
+    unmasked: {
+      type: String as PropType<string>,
+      required: false,
+    },
+    mask: {
+      type: String as PropType<string>,
+      required: true,
+    },
   },
-};
 
-const maskInputHandler = (event: CustomEvent<MaskaDetail>) => {
-  val.value = props.unmask ? event.detail.unmasked : event.detail.masked;
-  isMaskFieldCorrect.value = event.detail.completed;
-};
+  emits: ['update:modelValue', 'update:unmasked'],
+
+  setup(props, { emit, attrs }) {
+    const { maskedValue, unmaskedValue, maskModel } = useMask(props.mask);
+
+    const value = computed({
+      get() {
+        return props.modelValue ?? maskedValue.value;
+      },
+      set(val: string) {
+        maskedValue.value = val;
+        emit('update:modelValue', maskedValue.value);
+        if (props.unmasked !== undefined) {
+          emit('update:unmasked', unmaskedValue.value);
+        }
+      },
+    });
+
+    return () => withDirectives(h(InputText, {
+      ...attrs,
+      'modelValue': value.value,
+      'onUpdate:modelValue': (str: string) => {
+        value.value = str;
+      },
+    }), [[vMaska, maskModel]]);
+  },
+});
 </script>
-
-<template>
-  <FormLabel :label="props.label" :error-message="!fieldValid ? errorMessage : ''" :loading="loading">
-    <InputText
-      v-maska="maska"
-      v-bind="{ ...props, ...$attrs }"
-      :invalid="!fieldValid"
-      :disabled="loading"
-      @maska="maskInputHandler"
-    />
-  </FormLabel>
-</template>
-
-<style scoped lang="scss"></style>

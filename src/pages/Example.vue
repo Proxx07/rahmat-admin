@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { Button, Checkbox, InputText, Message, Select, SelectButton } from 'primevue';
+import { Button, InputNumber, InputText, Message, Select, SelectButton } from 'primevue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { backArrow, marker } from '@/assets/icons';
 import FormLabel from '@/components/Form/FormLabel.vue';
-import VForm from '@/components/Form/VForm.vue';
 import VInputMask from '@/components/Form/VInputMask.vue';
-import VInputNumber from '@/components/Form/VInputNumber.vue';
-import VInputText from '@/components/Form/VInputText.vue';
 import LangSwitcher from '@/components/UI/LangSwitcher.vue';
-
-import { useThemeMode } from '@/composables/UI/';
+import { useValidation } from '@/composables/Form';
+import { $formRules } from '@/composables/Form/models';
+import { useMask, useThemeMode } from '@/composables/UI/';
 import { $confirm } from '@/plugins/confirmation.ts';
 import { useToastStore } from '@/store/toastsStore.ts';
 
 const { t } = useI18n();
 const $toast = useToastStore();
 const $router = useRouter();
+
+const { modeModel, modes } = useThemeMode();
 const defaultConfirm = async () => {
   const result = await $confirm.default({ title: 'toast.warn', subtitle: 'confirmations.warning' });
   if (result) {
@@ -44,19 +44,29 @@ const severities = ['error', 'secondary', 'info', 'success', 'warn', 'contrast']
 
 const buttonLoading = ref(true);
 
-const text = ref('');
-const text2 = ref('');
-const numberFieldValue = ref(0);
-const maskFieldValue = ref('');
-const maskFieldValue2 = ref('');
+const { maskedValue: stringMask, unmaskedValue: stringMaskUnmasked, maskModel: stringMaskModel } = useMask('@@-@@-AA');
 
-const secondField = ref(false);
+const test = ref({
+  str: 'aaa',
+  strUnmasked: 'aaa',
+  number: '',
+});
 
-const handleSubmit = () => {
-  $confirm.success({ title: 'toast.success', subtitle: 'confirmations.warning' });
-};
+const testValidationModel = ref({
+  age: 0,
+  name: '',
+  surname: '',
+  maskedString: '',
+  unmaskedString: '',
+});
 
-const { modeModel, modes } = useThemeMode();
+const { errors } = useValidation(testValidationModel, {
+  name: [$formRules.required()],
+  age: [$formRules.required(), $formRules.minValue(18)],
+  surname: [$formRules.required()],
+  maskedString: [$formRules.required()],
+  unmaskedString: [$formRules.required()],
+});
 </script>
 
 <template>
@@ -136,68 +146,50 @@ const { modeModel, modes } = useThemeMode();
       <Select size="large" :options="severities" placeholder="Select large" />
     </div>
 
-    <VForm @submit-form="handleSubmit">
-      <div class="form-wrapper">
-        <div class="field-group">
-          <VInputText
-            v-model="text"
-            placeholder="Text-field-1"
-            :rules="[$formRules.required(), $formRules.minLength(10)]"
-          />
-
-          <VInputText
-            v-if="secondField"
-            v-model="text2"
-            placeholder="Text-field-2"
-            :rules="[$formRules.required()]"
-          />
-          <template v-else>
-            <div class="font-16-b w-full" style="text-align: center;">
-              Second field!
-            </div>
-          </template>
-        </div>
-
-        <div class="field-group">
-          <VInputNumber
-            v-model="numberFieldValue"
-            :min="0"
-            :rules="[$formRules.required(), $formRules.minValue(20)]"
-            show-buttons
-            button-layout="horizontal"
-            placeholder="Number field"
-          />
-          <VInputNumber
-            v-model="numberFieldValue"
-            :min="0"
-            :rules="[$formRules.required(), $formRules.minValue(10)]"
-            show-buttons
-            placeholder="Number field"
-          />
-        </div>
-
-        <div class="field-group">
-          <VInputMask
-            v-model="maskFieldValue"
-            mask="##-##-##"
-            placeholder="Numbers with mask"
-            :pt="{ root: { inputmode: 'numeric' } }"
-            :rules="[$formRules.required()]"
-          />
-          <VInputMask
-            v-model="maskFieldValue2"
-            mask="@@-@@-AA"
-            placeholder="Letters with mask"
-          />
-        </div>
-        <div class="field-group">
-          <FormLabel label="Show second field" for="check-1">
-            <Checkbox v-model="secondField" binary input-id="check-1" />
-          </FormLabel>
-        </div>
-      </div>
-      <Button type="submit" label="Submit" fluid style="margin-top: 1.6rem" />
-    </VForm>
+    <div class="field-group">
+      <FormLabel label="Letters with mask">
+        <InputText
+          v-model="stringMask"
+          v-maska="stringMaskModel"
+        />
+      </FormLabel>
+      <FormLabel label="Letters with mask-2">
+        <VInputMask
+          v-model="test.str"
+          v-model:unmasked="test.strUnmasked"
+          mask="@@-@@-AA"
+        />
+      </FormLabel>
+      <FormLabel label="Number with mask">
+        <VInputMask
+          v-model="test.number"
+          mask="##-##"
+        />
+      </FormLabel>
+    </div>
+    <div class="field-group">
+      <FormLabel label="Age" :error-message="errors.age">
+        <InputNumber v-model="testValidationModel.age" />
+      </FormLabel>
+      <FormLabel label="name" :error-message="errors.name">
+        <InputText v-model="testValidationModel.name" />
+      </FormLabel>
+      <FormLabel label="surname" :error-message="errors.surname">
+        <InputText v-model="testValidationModel.surname" />
+      </FormLabel>
+      <FormLabel label="maskedString" :error-message="errors.maskedString">
+        <VInputMask
+          v-model="testValidationModel.maskedString"
+          mask="@@-@@-AA"
+        />
+      </FormLabel>
+      <FormLabel label="unmaskedString" :error-message="errors.unmaskedString">
+        <VInputMask
+          v-model:unmasked="testValidationModel.unmaskedString"
+          mask="##-##-##"
+        />
+      </FormLabel>
+    </div>
   </div>
 </template>
 

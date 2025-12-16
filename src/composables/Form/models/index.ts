@@ -1,8 +1,9 @@
 import type { ComposerTranslation } from 'vue-i18n';
 import type { FormRule } from '@/composables/Form/types';
 import type { MessageSchema } from '@/plugins/i18n/types';
+import { i18n } from '@/plugins/i18n';
 
-export const formRules = ($t: ComposerTranslation<MessageSchema>) => {
+const formRules = ($t: ComposerTranslation<MessageSchema>) => {
   return {
     required: (): FormRule<string | number> => (value: string | number) => !!value || $t('rules.required'),
     minLength: (opt: number): FormRule<string> => (value: string) => String(value).length >= opt || $t('rules.minLength', { opt }),
@@ -16,5 +17,7 @@ export const formRules = ($t: ComposerTranslation<MessageSchema>) => {
     },
   };
 };
+
+export const $formRules = formRules(i18n.global.t);
 
 export type FormRules = ReturnType<typeof formRules>;

@@ -4,7 +4,7 @@ body {
   }
 
   .confirmation-dialog {
-    max-width: 36rem;
+    max-width: 42rem;
     width: 100%;
     .p-dialog-content {
       padding: 0;
@@ -12,11 +12,13 @@ body {
   }
 
   .p-button-icon-svg {
-    font-size: 0 !important;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     svg {
       width: auto;
       max-width: 100%;
-      max-height: 100%;
       transition: var(--transition-fast);
       &[fill]:not([fill='none']) {
         fill: currentColor;
@@ -44,21 +46,32 @@ body {
   }
 
   .p-select {
-    --p-select-dropdown-width: 5rem;
-
-    --p-select-lg-font-size: 3rem;
-    --p-icon-size: 2.5rem;
-    --p-select-sm-font-size: 1.5rem;
-    &.p-select-sm {
-      --p-select-dropdown-width: 3.6rem;
-    }
-    &.p-select-lg {
-      --p-select-dropdown-width: 6rem;
-    }
     .p-select-dropdown {
-      margin: -1px -1px -1px 0;
-      background: var(--primary-500);
-      color: var(--primary-surface-color);
+      --p-icon-size: 1.3em;
+      justify-content: flex-start;
+      svg {
+        width: var(--p-icon-size);
+        [stroke] {
+          stroke: var(--text-color);
+        }
+      }
+    }
+  }
+
+  .p-floatlabel label {
+    font: var(--font-16-b);
+    color: var(--p-form-field-placeholder-color);
+  }
+
+  .p-inputnumber {
+    &.p-inputnumber-horizontal .p-inputnumber-input {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    .p-inputnumber-button-group {
+      height: 100%;
+      margin: -1px;
     }
   }
 

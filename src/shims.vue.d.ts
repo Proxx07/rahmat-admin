@@ -37,7 +37,7 @@ interface GlobalProperties {
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
   >(key: Key | ResourceKeys, params?: Record<string, string | number>) => string,
   */
-  $formRules: FormRules,
+  /* $formRules: FormRules, */
 }
 
 declare module '@vue/runtime-core' {

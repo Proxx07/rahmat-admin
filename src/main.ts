@@ -1,10 +1,9 @@
+import { vMaska } from 'maska/vue';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
 import { createApp } from 'vue';
-
 import App from '@/App.vue';
-import { formRules } from '@/composables/Form/models';
 import { i18n } from '@/plugins/i18n';
 import { options } from '@/plugins/PrimeVue';
 import router from '@/router/router.ts';
@@ -20,6 +19,5 @@ app
   .use(router)
   .use(PrimeVue, options)
   .use(ToastService)
+  .directive('maska', vMaska)
   .mount('#app');
-
-app.config.globalProperties.$formRules = formRules(i18n.global.t);

@@ -10,6 +10,7 @@ import { toastConfig, toastPt } from '@/plugins/PrimeVue/toast';
 import { buttonConfig, buttonPt } from './button';
 import { cardConfig } from './card';
 import { checkboxConfig } from './checkbox';
+import { floatLabelConfig } from './floatLabel';
 import { inputFieldPt } from './input';
 import { inputNumberConfig, inputNumberPt } from './inputNumber';
 import { messageConfig } from './message';
@@ -85,15 +86,15 @@ const customPreset = definePreset(Aura, {
     },
 
     formField: {
-      paddingX: '1.6rem',
-      paddingY: '2rem',
+      paddingX: '1.3rem',
+      paddingY: '1.3rem',
       sm: {
         paddingX: '1rem',
-        paddingY: '1.4rem',
+        paddingY: '1rem',
       },
       lg: {
-        paddingX: '2rem',
-        paddingY: '2.3rem',
+        paddingX: '1.6rem',
+        paddingY: '1.6rem',
       },
     },
 
@@ -105,7 +106,7 @@ const customPreset = definePreset(Aura, {
           disabledColor: 'var(--black)',
           disabledBackground: 'var(--secondary-400)',
           placeholderColor: '{surface.800}',
-          borderColor: 'transparent',
+          borderColor: 'var(--secondary-500)',
           hoverBorderColor: 'var(--primary-200)',
           focusBorderColor: 'var(--primary-500)',
         },
@@ -117,15 +118,16 @@ const customPreset = definePreset(Aura, {
           color: 'var(--white)',
           disabledColor: 'var(--white)',
           disabledBackground: '{zinc.800}',
-          placeholderColor: '{surface.600}',
-          borderColor: 'transparent',
+          placeholderColor: '{surface.400}',
+
+          borderColor: 'var(--secondary-950)',
           hoverBorderColor: 'var(--primary-800)',
           focusBorderColor: 'var(--primary-500)',
         },
       },
     },
 
-    iconSize: '1.8rem',
+    iconSize: '2rem',
   },
 
   components: {
@@ -147,6 +149,8 @@ const customPreset = definePreset(Aura, {
     },
 
     select: selectConfig(),
+
+    floatlabel: floatLabelConfig(),
 
     togglebutton: toggleButtonConfig(),
 

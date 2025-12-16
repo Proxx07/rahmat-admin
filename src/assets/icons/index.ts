@@ -4,6 +4,7 @@ import eyeIcon from './eye.svg?raw';
 import loadingIcon from './loading.svg?raw';
 import marker from './marker.svg?raw';
 import reload from './reload.svg?raw';
+import selectArrow from './select-arrow.svg?raw';
 import uzcard from './uzcard.svg?raw';
 
 export {
@@ -13,5 +14,6 @@ export {
   loadingIcon,
   marker,
   reload,
+  selectArrow,
   uzcard,
 };

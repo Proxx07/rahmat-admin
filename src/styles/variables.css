@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 
 :root {
     --p-scrollbar-width: 5px;
 
     /* ================== fonts ================== */
-    --primary-font-r: 'Onest', sans-serif;
-    --primary-font-b: 'Onest', sans-serif;
+    --primary-font-r: 'Manrope', sans-serif;
+    --primary-font-b: 'Manrope', sans-serif;
 
     /* --font-{size}-{weight} */
     --font-10-r: normal 500 1.0rem/1 var(--primary-font-r);
@@ -34,9 +35,9 @@
 
 
     /* ================== other ================== */
-    --radius-s: .3rem;
-    --radius-m: .5rem;
-    --radius-l: 1rem;
+    --radius-s: .5rem;
+    --radius-m: 1rem;
+    --radius-l: 1.5rem;
     --radius-xl: 5rem;
     --radius-round: 50%;
 
@@ -138,6 +139,10 @@ html {
 .w-full {
     width: 100%;
     max-width: 100%;
+}
+.h-full {
+    height: 100%;
+    max-height: 100%;
 }
 
 .mt-auto {

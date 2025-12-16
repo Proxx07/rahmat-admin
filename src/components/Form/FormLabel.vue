@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Message } from 'primevue';
+import { FloatLabel, Message } from 'primevue';
 import { loadingIcon } from '@/assets/icons/';
 
 const props = defineProps<{
@@ -12,16 +12,19 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="form-label">
-    <label
-      v-if="props.label"
-      :for="props.for"
-      :class="props.labelClass"
-    >
-      <span v-html="props.label" />
-      <span v-if="loading" class="rotate-animation" v-html="loadingIcon" />
-    </label>
-    <slot />
+  <div class="w-full">
+    <FloatLabel variant="on" class="form-label">
+      <label
+        v-if="props.label"
+        :for="props.for"
+        :class="props.labelClass"
+      >
+        <span v-html="props.label" />
+        <span v-if="loading" class="rotate-animation" v-html="loadingIcon" />
+      </label>
+      <slot />
+    </FloatLabel>
+
     <Message v-if="errorMessage" severity="error" class="w-full" size="small" variant="simple">
       {{ errorMessage }}
     </Message>
@@ -34,12 +37,13 @@ const props = defineProps<{
   flex-direction: column;
   gap: 0.6rem;
   width: 100%;
+  margin-bottom: 0.6rem;
   label {
-    font: var(--font-14-r);
     cursor: pointer;
     display: flex;
     align-items: flex-start;
     gap: .5rem;
+    z-index: 10;
   }
 
   .rotate-animation {

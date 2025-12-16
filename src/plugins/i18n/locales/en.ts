@@ -1,17 +1,5 @@
 export default {
   loading: 'Loading...',
-  noFace: 'Face not detected!',
-  tooClose: 'You are holding the camera too close!',
-  tooFar: 'You are holding the camera too far!',
-  offCenter: 'Please, center your face.',
-  tilted: 'Please, keep your head straight.',
-  turned: 'Please, face the camera directly.',
-  notLooking: 'Look directly into the camera.',
-  mouthOpened: 'Please, close your mouth.',
-  smiling: 'Please, don\'t smile',
-  ok: 'Great, stay still!',
-  faceIdError: 'Failed to verify identity',
-
   continue: 'Continue',
   confirm: 'Confirm',
   sending: 'Sending...',
@@ -28,8 +16,6 @@ export default {
   date: 'Date',
   sum: 'Sum',
   add: 'Add',
-
-  reloadWarning: 'Attention! If you reload the page, you will have to go through the identification process again',
 
   main: {
     title: 'Registration',
@@ -58,17 +44,6 @@ export default {
     passport: 'Passport series / number',
     birthDate: 'Date of birth',
     agreement: `I agree with the terms of the <a href="#" target="_blank">public offer</a> and give my consent to the processing and use of my personal data`,
-  },
-
-  paymentsSchedule: {
-    title: 'Payment schedule',
-    installmentPeriod: 'Installment period',
-  },
-
-  creditCard: {
-    title: 'Adding a card',
-    description: 'The initial payment will be debited from the bank card you added.',
-    enterCard: 'Enter card details',
   },
 
   confirmations: {

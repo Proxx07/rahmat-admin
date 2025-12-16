@@ -6,11 +6,10 @@ export const buttonConfig = (): ButtonDesignTokens => {
   return {
     root: {
       paddingX: '2rem',
-      paddingY: '1.2rem',
+      paddingY: '1.3rem',
       sm: { paddingX: '.9rem', paddingY: '.9rem' },
-      lg: { paddingX: '1.6rem', paddingY: '2rem' },
+      lg: { paddingX: '1.6rem', paddingY: '1.6rem' },
       label: { fontWeight: 'unset' },
-
       primary: {
         background: 'var(--primary-500)',
         hoverBackground: 'var(--primary-400)',
@@ -18,6 +17,9 @@ export const buttonConfig = (): ButtonDesignTokens => {
         color: 'var(--primary-surface-color)',
         hoverColor: 'var(--primary-surface-color)',
         activeColor: 'var(--primary-surface-color)',
+        borderColor: 'transparent',
+        hoverBorderColor: 'transparent',
+        activeBorderColor: 'transparent',
       },
 
       secondary: {
@@ -38,7 +40,7 @@ export const buttonConfig = (): ButtonDesignTokens => {
 export const buttonPt = (instance: VNode<RendererNode, RendererElement, ButtonProps>): ButtonPassThroughOptions => {
   return {
     root: {
-      class: !instance.props?.size ? 'font-14-b' : instance.props.size === 'small' ? 'font-12-r' : 'font-18-b',
+      class: !instance.props?.size ? 'font-16-b' : instance.props.size === 'small' ? 'font-12-r' : 'font-18-b',
     },
 
     icon: {

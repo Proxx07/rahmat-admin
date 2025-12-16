@@ -20,7 +20,7 @@ const icon = computed(() => ConfirmationTypesIcon[props.type]);
       <div class="header-wrapper">
         <VIcon :icon="icon" :color="color" class="icon" />
 
-        <h1 v-if="title" class="font-22-b">
+        <h1 v-if="title" class="font-30-b">
           {{ t(title) }}
         </h1>
       </div>
@@ -44,19 +44,20 @@ const icon = computed(() => ConfirmationTypesIcon[props.type]);
 <style scoped lang="scss">
 .card {
   width: 100%;
-  max-width: 36rem;
+  max-width: 42rem;
+  --p-card-body-padding: 2.6rem 2rem 2rem;
   :deep(.p-card-content) {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.6rem;
   }
   .header-wrapper {
     display: flex;
     gap: 0.5rem;
     align-items: center;
     .icon {
-      width: 4.5rem;
-      min-width: 4.5rem;
+      width: 3.6rem;
+      min-width: 3.6rem;
     }
   }
   .subtitle {

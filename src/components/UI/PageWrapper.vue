@@ -1,98 +1,83 @@
 <script setup lang="ts">
-import { Button } from 'primevue';
-import { computed, useSlots } from 'vue';
-import { backArrow } from '@/assets/icons';
+import { Button, InputGroup, InputGroupAddon, InputText } from 'primevue';
+import { computed } from 'vue';
+import { selectArrow } from '@/assets/icons';
+import VIcon from '@/components/UI/VIcon.vue';
 
 const props = defineProps<{
   title?: string
+  search?: string
   backEnabled?: boolean
   bgColor?: string
   textColor?: string
+  contentScrollable?: boolean
 }>();
 
-const emit = defineEmits<{
-  (e: 'back-button-clicked'): void
-}>();
+const searchQuery = defineModel<string>('search');
 
 const bg = computed<string>(() => props.bgColor ? props.bgColor : 'var(--site-bg)');
 const color = computed<string>(() => props.textColor ? props.textColor : 'var(--text-color)');
-
-const slots = useSlots();
 </script>
 
 <template>
   <div class="page-wrapper">
-    <div class="page-header content">
-      <div class="side-items">
-        <Button
-          v-if="props.backEnabled"
-          :icon="backArrow"
-          text
-          fluid
-          class="back-button"
-          @click="emit('back-button-clicked')"
-        />
+    <div class="page-header">
+      <div class="page-header__left">
+        <slot name="header-left">
+          <Button label="Назад" severity="secondary" fluid class="h-full" />
+        </slot>
       </div>
-      <div v-if="props.title" class="title">
-        {{ props.title }}
+      <div class="page-header__center">
+        <InputGroup>
+          <InputGroupAddon>
+            <VIcon :icon="selectArrow" color="var(--text-color)" />
+          </InputGroupAddon>
+          <InputText v-model="searchQuery" placeholder="Поиск" fluid />
+        </InputGroup>
       </div>
-      <div class="side-items">
-        <slot name="title-append" />
+      <div class="page-header__right">
+        <slot name="header-right" />
       </div>
+      <h1 v-if="title">
+        {{ title }}
+      </h1>
     </div>
-    <div class="page-content content">
+    <div class="page-content" :class="[contentScrollable && 'scrollable']">
       <slot />
-    </div>
-
-    <div class="page-footer content" :class="[slots['page-footer'] && 'has-content']">
-      <slot name="page-footer" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.content {
-  --px: 2.4rem;
-  @include media-max($mobile) {
-    --px: 1.6rem;
-  }
-}
 .page-wrapper {
-  padding: 3rem 0 0;
-  min-height: 100dvh;
-  max-height: 100dvh;
   color: v-bind(color);
   background: v-bind(bg);
   position: relative;
   display: flex;
   flex-direction: column;
-
-  .side-items {
-    min-width: 9.5rem;
-    max-width: 9.5rem;
-  }
-  @include media-max($mobile) {
-    padding-top: 2.6rem;
-    .side-items {
-      min-width: 5rem;
-      max-width: 5rem;
-    }
-  }
+  height: 100%;
 }
 .page-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   position: relative;
-  min-height: 4.4rem;
-  padding-left: var(--px);
-  padding-right: var(--px);
+  display: grid;
+  grid-template-columns: 2fr 6fr 4fr;
+  &__center {
+    --p-inputtext-background: var(--secondary-500);
+    --p-inputgroup-addon-background: var(--secondary-500);
+    --p-inputgroup-addon-min-width: 4.6rem;
+    :deep(.p-inputtext) {
+      //border: 0 !important;
+      //border-block-start: 0;
+      //border-block-end: 0;
+      box-shadow: none;
+      padding-left: .6rem;
+    }
+  }
+  h1 {
+    grid-column: span 2;
+  }
 }
-.back-button {
-  --p-button-text-primary-color: var(--text-color);
-  min-width: 3.5rem;
-}
-
 .title {
   flex-grow: 1;
   text-align: center;
@@ -105,12 +90,13 @@ const slots = useSlots();
   flex-direction: column;
   position: relative;
   margin-top: 2rem;
-  padding-left: var(--px);
-  padding-right: var(--px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
+  &.scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
-
+/*
 .page-footer {
   padding: 1.5rem var(--px) 0;
   color: v-bind(color);
@@ -129,4 +115,5 @@ const slots = useSlots();
     }
   }
 }
+*/
 </style>

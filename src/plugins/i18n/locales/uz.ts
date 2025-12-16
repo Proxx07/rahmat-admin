@@ -1,17 +1,5 @@
 export default {
   loading: 'Yuklanmoqda...',
-  noFace: 'Yuz aniqlanmadi!',
-  tooClose: 'Siz kamerani juda yaqin ushlab turibsiz!',
-  tooFar: 'Siz kamerani juda uzoq ushlab turibsiz!',
-  offCenter: 'Iltimos, yuzingizni markazga joylashtiring.',
-  tilted: 'Iltimos, boshingizni tik tuting.',
-  turned: 'Iltimos, yuzingizni to‘g‘ridan-to‘g‘ri kameraga qarating.',
-  notLooking: 'Iltimos, to‘g‘ri kameraga qarang.',
-  mouthOpened: 'Iltimos, oq‘zingizni yoping.',
-  smiling: 'Iltimos, kulmang.',
-  ok: 'Yaxshi, harakatsiz turing!',
-  faceIdError: 'Shaxsni tasdiqlashning imkoni bo‘lmadi',
-
   continue: 'Davom e‘tish',
   confirm: 'Tasdiqlash',
   sending: 'Yuborish...',
@@ -28,8 +16,6 @@ export default {
   date: 'Sana',
   sum: 'Summa',
   add: 'Qo‘shish',
-
-  reloadWarning: 'Diqqat! Agar siz sahifani qayta yuklasangiz, identifikatsiya jarayonini qaytadan o‘tishingizga to‘g‘ri keladi',
 
   main: {
     title: 'Roʻyxatdan oʻtish',
@@ -58,17 +44,6 @@ export default {
     passport: 'Pasport seriyasi / raqami',
     birthDate: 'Tug‘ilgan sana',
     agreement: `Men <a href="#" target="_blank">ommaviy oferta</a> shartlariga roziman va shaxsiy ma’lumotlarimni qayta ishlash va foydalanishga rozilik beraman`,
-  },
-
-  paymentsSchedule: {
-    title: 'To‘lov jadvali',
-    installmentPeriod: 'To‘lov muddati',
-  },
-
-  creditCard: {
-    title: 'Karta qo‘shish',
-    description: 'Dastlabki to‘lov siz qo‘shgan bank kartasidan yechib olinadi.',
-    enterCard: 'Karta ma’lumotlarini kiriting',
   },
 
   confirmations: {

@@ -1,48 +1,36 @@
-import type { IEmits, IFormField } from './types';
-import { computed, inject, onBeforeMount, onBeforeUnmount, ref, useId } from 'vue';
-import { ADD_FORM_VALIDATION_RULE, IS_VALIDATED } from './types';
+import type { MaybeRefOrGetter } from 'vue';
+import type { FormRule } from './types';
+import { toValue } from '@vue/reactivity';
+import { computed, ref } from 'vue';
 
-export const useFormField = <MODEL_VALUE_TYPE extends string | number, FIELD_PROPS>(props: IFormField<MODEL_VALUE_TYPE> & FIELD_PROPS & { mask?: string }, emit: IEmits<MODEL_VALUE_TYPE>) => {
-  let removeValidationRule: () => boolean;
-  const id = useId();
-  const isValidated = inject(IS_VALIDATED);
-  const addValidationToForm = inject(ADD_FORM_VALIDATION_RULE);
+export const useValidation = <T extends Record<string, any>>(model: MaybeRefOrGetter<T>, rules: Partial<{ [K in keyof T]: FormRule<T[K]>[] }>) => {
+  const isValidated = ref<boolean>(false);
 
-  const isMaskFieldCorrect = ref(true);
-  const val = computed<MODEL_VALUE_TYPE | undefined>({
-    get() {
-      return props.modelValue;
-    },
+  const errors = computed<Partial<Record<keyof T, string>>>(() => {
+    const obj = toValue(model);
+    const result: Partial<Record<keyof T, string>> = {};
 
-    set(value: MODEL_VALUE_TYPE | undefined) {
-      if (typeof value === 'undefined' || props.loading) return;
-      emit('update:modelValue', value);
-    },
-  });
+    if (!isValidated.value) return result;
+    (Object.keys(obj) as (keyof T)[]).forEach((key) => {
+      const fieldRules = rules[key];
+      if (!fieldRules) return;
 
-  const errorMessage = computed(() => {
-    if ((!props.rules || !props.rules.length) && !props.mask) return '';
-    if (props.rules && props.rules.length) {
-      for (const rule of props.rules) {
-        if (typeof val.value !== 'undefined' && typeof rule(val.value) === 'string') {
-          return rule(props.modelValue) as string;
-        }
+      for (const rule of fieldRules) {
+        const res = rule(obj[key]);
+
+        if (res === true) continue;
+        result[key] = res === false ? 'Invalid value' : res;
+        break;
       }
-    }
-    if (props.mask && !isMaskFieldCorrect.value && val.value) return '  ';
-    return '';
+    });
+    return result;
   });
 
-  const fieldValid = computed(() => !isValidated?.value || !errorMessage.value);
+  const isValid = computed(() => Object.keys(errors).length > 0);
 
-  onBeforeMount(() => {
-    if (!props.rules || typeof addValidationToForm === 'undefined') return;
-    removeValidationRule = addValidationToForm(id, fieldValid);
-  });
-
-  onBeforeUnmount(() => {
-    if (removeValidationRule) removeValidationRule();
-  });
-
-  return { val, isMaskFieldCorrect, fieldValid, errorMessage };
+  return {
+    errors,
+    isValid,
+    isValidated,
+  };
 };
