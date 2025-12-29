@@ -62,6 +62,7 @@ const color = computed<string>(() => props.textColor ? props.textColor : 'var(--
   position: relative;
   display: grid;
   grid-template-columns: 2fr 6fr 4fr;
+
   &__center {
     --p-inputtext-background: var(--secondary-500);
     --p-inputgroup-addon-background: var(--secondary-500);

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import logo from '@/assets/rahmat-logo.svg?raw';
 import VIcon from '@/components/UI/VIcon.vue';
+import { useThemeMode } from '@/composables/UI';
+
+const { isDark } = useThemeMode();
 </script>
 
 <template>
@@ -8,7 +11,7 @@ import VIcon from '@/components/UI/VIcon.vue';
     <header class="colspan-2">
       <VIcon :icon="logo" no-fill />
     </header>
-    <aside>
+    <aside :class="[isDark && 'dark']">
       <nav>
         {NAVIGATION}
       </nav>
@@ -35,11 +38,14 @@ header, aside {
   padding: 2rem;
 }
 header {
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.06);
 }
 
 aside {
   background: var(--secondary-500);
+  &.dark {
+    background: var(--p-zinc-800);
+  }
 }
 
 main {

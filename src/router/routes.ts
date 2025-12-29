@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/example',
     name: 'example',
-    component: () => import.meta.env.PROD ? import('@/pages/Example.vue') : import('@/pages/Page404.vue'),
+    component: () => import.meta.env.DEV ? import('@/pages/Example.vue') : import('@/pages/Page404.vue'),
     meta: {
       layout: 'Default',
     },

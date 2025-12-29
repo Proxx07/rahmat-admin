@@ -13,7 +13,11 @@ const search = ref<string>('');
   <PageWrapper v-model:search="search" title="Meню">
     {PAGE_CONTENT} {{ search }}
     <br>
-    <Button label="Check router transition" size="large" @click="$router.push({ name: 'status', params: { type: 'approved' } })" />
+    <Button
+      label="Check router transition"
+      size="large"
+      @click="$router.push({ name: 'status', params: { type: 'approved' } })"
+    />
   </PageWrapper>
 </template>
 
